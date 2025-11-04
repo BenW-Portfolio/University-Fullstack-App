@@ -1,0 +1,32 @@
+/* buttons */
+.btn-primary {
+    background-color: #005b96;
+    border-color: #005b96;
+}
+.btn-primary:hover {
+    background-color: #003f6f;
+    border-color: #003f6f;
+}
+
+/* alerts */
+.alert-success {
+    background-color: #d1f0d1;
+    color: #2b662b;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+/* card header tweaks */
+.card-title {
+    color: #004080;
+    font-weight: 600;
+}
+
+/* form fields */
+input.form-control, textarea.form-control {
+    border-radius: 0.3rem;
+    border: 1px solid #ced4da;
+}
