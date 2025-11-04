@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2>Personal Information</h2>
+
+<form action="{{ url_for('personal_info') }}" method="post">
+    <table>
+        <tr>
+            <th>Field</th>
+            <th>Current Value</th>
+            <th>New Value</th>
+        </tr>
+        <tr>
+            <td><label for="username">Username:</label></td>
+            <td>{{ user['username'] }}</td>
+            <td><input type="text" id="username" name="username" value="{{ user.username }}"></td>
+        </tr>
+        <tr>
+            <td><label for="first_name">First Name:</label></td>
+            <td>{{ user.first_name }}</td>
+            <td><input type="text" id="first_name" name="first_name" value="{{ user.first_name }}"></td>
+        </tr>
+        <tr>
+            <td><label for="last_name">Last Name:</label></td>
+            <td>{{ user.last_name }}</td>
+            <td><input type="text" id="last_name" name="last_name" value="{{ user.last_name }}"></td>
+        </tr>
+        <tr>
+            <td><label for="address">Address:</label></td>
+            <td>{{ user.address if user.address else 'Not provided' }}</td>
+            <td><input type="text" id="address" name="address" value="{{ user.address if user.address else '' }}"></td>
+        </tr>
+        <tr>
+            <td><label for="program">Program:</label></td>
+            <td>{{ user.program if user.program else 'Not provided' }}</td>
+            <td>
+                <select id="program" name="program">
+                    <option value="">Select program</option>
+                    <option value="PHD" {% if user.program == 'PHD' %}selected{% endif %}>Phd</option>
+                    <option value="MASTERS" {% if user.program == 'MASTERS' %}selected{% endif %}>Masters</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    
+    <button type="submit">Save Changes</button>
+</form>
+{% endblock %}

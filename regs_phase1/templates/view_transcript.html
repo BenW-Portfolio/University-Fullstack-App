@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if user_role == 'student' %}
+        <title>My Transcript</title>
+    {% elif user_role == 'instructor' %}
+        <title>My Rosters</title>
+    {% elif user_role == 'gs' %}
+        <title>Student Rosters</title>
+    {% else %}
+        <title>REGS</title>
+    {% endif %}
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .section-header { background-color: #e9e9e9; font-weight: bold; padding: 10px; margin-top: 20px; border: 1px solid #ccc; }
+        .search-bar { margin-bottom: 20px; }
+        .search-bar input[type=text] { padding: 6px; width: 300px; }
+        .search-bar button { padding: 6px 10px; }
+        .no-data { font-style: italic; color: #777; }
+        .grade-form select { margin-right: 5px; }
+        nav a { margin-right: 15px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a> |
+        {% if 'user_id' in session %}
+            <a href="{{ url_for('view_transcript') }}">Transcript/Rosters</a> |
+            <a href="{{ url_for('logout') }}">Logout ({{ session.username }})</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+    </nav>
+    <hr>
+
+    {% if user_role == 'student' %}
+    <h1>My Academic Transcript</h1>
+    {% if student_transcript %}
+    <table>
+        <thead>
+            <tr>
+                <th>Term</th>
+                <th>Course</th>
+                <th>Title</th>
+                <th>Credits</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in student_transcript %}
+            <tr>
+                <td>{{ entry.semester }} {{ entry.year }}</td>
+                <td>{{ entry.dept_code }} {{ entry.course_number }}</td>
+                <td>{{ entry.title }}</td>
+                <td>{{ entry.credits }}</td>
+                <td>{{ entry.grade if entry.grade else 'IP' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="no-data">No enrollment history found.</p>
+    {% endif %}
+
+    {% elif user_role == 'instructor' %}
+    <h1>My Course Rosters</h1>
+    {% if instructor_sections %}
+        {% for section_data in instructor_sections %}
+        <div class="section-header">
+            {{ section_data.details.dept_code }} {{ section_data.details.course_number }} - {{ section_data.details.title }}
+            ({{ section_data.details.semester }} {{ section_data.details.year }}, Section {{ section_data.details.section_id }})
+            - {{ section_data.details.day }} {{ section_data.details.time_slot }}
+        </div>
+        {% if section_data.students %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Student ID</th>
+                    <th>Grade</th>
+                    <th>Enter/Update Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in section_data.students %}
+                <tr>
+                    <td>{{ student.last_name }}, {{ student.first_name }}</td>
+                    <td>{{ student.student_id }}</td>
+                    <td>{{ student.grade if student.grade else 'IP' }}</td>
+                    <td>
+                        {% set instructor_can_edit_this = (student.grade == None or student.grade == 'IP') %}
+                        {% if instructor_can_edit_this %}
+                        <form class="grade-form" action="{{ url_for('view_transcript') }}" method="post" style="display: inline;">
+                            <input type="hidden" name="enrollment_id" value="{{ student.enrollment_id }}">
+                            <input type="hidden" name="section_id" value="{{ section_data.details.section_id }}">
+                            <select name="grade" required>
+                                <option value="" {% if student.grade == None %}selected{% endif %}>IP</option>
+                                {% for g in valid_grades %}
+                                <option value="{{ g }}" {% if student.grade == g %}selected{% endif %}>{{ g }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit">Update</button>
+                        </form>
+                        {% else %}
+                        (Submitted)
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="no-data">No students currently enrolled in this section.</p>
+        {% endif %}
+        {% endfor %}
+    {% else %}
+    <p class="no-data">You are not currently assigned to any sections.</p>
+    {% endif %}
+
+    {% elif user_role == 'gs' %}
+    <h1>Student Rosters (All Sections)</h1>
+
+    <div class="search-bar">
+        <form method="get" action="{{ url_for('view_transcript') }}">
+            <label for="search_query">Search Students (Name/ID): </label>
+            <input type="text" id="search_query" name="search_query" value="{{ search_query }}">
+            <button type="submit">Search</button>
+            {% if search_query %}
+                 <a href="{{ url_for('view_transcript') }}">Clear Search</a>
+            {% endif %}
+        </form>
+    </div>
+
+    {% if gs_sections %}
+        {% for section_data in gs_sections %}
+        <div class="section-header">
+             {{ section_data.details.dept_code }} {{ section_data.details.course_number }} - {{ section_data.details.title }}
+            ({{ section_data.details.semester }} {{ section_data.details.year }}, Section {{ section_data.details.section_id }})
+            - {{ section_data.details.day }} {{ section_data.details.time_slot }}
+            {% if section_data.details.instructor_names %} (Instructor: {{ section_data.details.instructor_names }}) {% endif %}
+        </div>
+        {% if section_data.students %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Student ID</th>
+                    <th>Grade</th>
+                    <th>Enter/Update Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in section_data.students %}
+                <tr>
+                    <td>{{ student.last_name }}, {{ student.first_name }}</td>
+                    <td>{{ student.student_id }}</td>
+                    <td>{{ student.grade if student.grade else 'IP' }}</td>
+                    <td>
+                        <form class="grade-form" action="{{ url_for('view_transcript') }}" method="post" style="display: inline;">
+                            <input type="hidden" name="enrollment_id" value="{{ student.enrollment_id }}">
+                            <input type="hidden" name="section_id" value="{{ section_data.details.section_id }}">
+                            <input type="hidden" name="search_query_hidden" value="{{ search_query }}">
+                            <select name="grade" required>
+                                <option value="" {% if student.grade == None %}selected{% endif %}>IP</option>
+                                {% for g in valid_grades %}
+                                <option value="{{ g }}" {% if student.grade == g %}selected{% endif %}>{{ g }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            {% if search_query %}
+                 <p class="no-data">No students matching search found in this section.</p>
+            {% else %}
+                 <p class="no-data">No students currently enrolled in this section.</p>
+            {% endif %}
+        {% endif %}
+        {% endfor %}
+    {% else %}
+        {% if search_query %}
+             <p class="no-data">No students or sections found matching your search criteria.</p>
+        {% else %}
+             <p class="no-data">No sections found.</p>
+             <p>Use the search bar above to find students.</p>
+        {% endif %}
+    {% endif %}
+
+    {% else %}
+     <p>Error: Unknown user role.</p>
+    {% endif %}
+
+</body>
+</html>

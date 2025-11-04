@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2>Available Courses</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Course Code</th>
+            <th>Title</th>
+            <th>Credits</th>
+            <th>Semester</th>
+            <th>Year</th>
+            <th>Day</th>
+            <th>Time</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{ display_message }}
+        {% for course in courses %}
+        <tr>
+            <td>{{ course.dept_code }} {{ course.course_number }}</td>
+            <td>{{ course.title }}</td>
+            <td>{{ course.credits }}</td>
+            <td>{{ course.semester }}</td>
+            <td>{{ course.year }}</td>
+            <td>{{ course.day }}</td>
+            <td>{{ course.time_slot }}</td>
+            <td>
+                <form action="{{ url_for('register') }}" method="post">
+                    <!-- <input type="hidden" name="student_id" value="{{ session.user_id }}"> -->
+                    <input type="hidden" name="section_id" value="{{ course.section_id }}">
+                    <button type="submit">Register</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
