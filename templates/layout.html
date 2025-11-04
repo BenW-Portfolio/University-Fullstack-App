@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>REGS System</title>
+    <link rel="stylesheet" href="static\styles\Styles.css">
+    <style>
+      body { font-family: sans-serif; margin: 20px; }
+      table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+      th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+      th { background-color: #f2f2f2; }
+      .section-header { background-color: #e9e9e9; font-weight: bold; padding: 10px; margin-top: 20px; border: 1px solid #ccc; }
+      .search-bar { margin-bottom: 20px; }
+      .search-bar input[type=text] { padding: 6px; width: 300px; }
+      .search-bar button { padding: 6px 10px; }
+      .no-data { font-style: italic; color: #777; }
+      .grade-form select { margin-right: 5px; }
+      nav a { margin-right: 15px; }
+  </style>
+  </head>
+  <body>
+    <header>
+      <h1>Registration</h1>
+      {% if session.user_id %}
+        <div class = "banner">
+
+          <div class = "link">
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{ url_for('login') }}">Home</a>
+            <a href="{{ url_for('view_transcript') }}">View Transcripts</a>
+            <a href="{{ url_for('register_class') }}">Class Registration/View</a>
+            <a href="{{ url_for('personal_info') }}">Personal Info</a>
+          </div>
+        </div>
+
+          
+          <form action="{{ url_for('reset_db') }}" method="post">
+              <button type="submit">Reset Database</button>
+          </form>
+          {% if session.user_type == 'admin' %}
+            <a href="{{ url_for('create_account') }}">Create Account</a>
+          {% endif %}
+        </nav>
+      {% else %}
+        <nav>
+          <a href="{{ url_for('login') }}">Login</a>
+        </nav>
+      {% endif %}
+    </header>
+
+    <div class="content">
+      {% block body %}{% endblock %}
+    </div>
+  </body>
+</html>

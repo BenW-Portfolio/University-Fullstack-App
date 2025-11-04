@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static\styles\Styles.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class = "banner">            
+        <div class = "link">
+            <a href="{{ back }}">Back</a>
+        </div>
+    </div>
+    <form action="/alumniList" method="POST" class="filterForm">
+        <label for="semester">Semester:</label>
+        <input type="text" id="semester" name="semester"><br>
+
+        <label for="year">Year:</label>
+        <input type="number" id="year" name="year" ><br>
+
+        <label for="degree">Degree Program:</label>
+        <input type="text" id="degree" name="degree"><br>
+
+        <input type="submit" value="submit">
+    </form>
+
+
+    {% for info in alumniInfo %}
+    <div class = "course">
+        <ul>
+            <li> 
+                {{info.username}} - {{info.first_name}} , {{info.last_name}}, {{info.graduationDate}}
+            </li> 
+        </ul>
+    </div>
+    {% endfor %}
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends "application_base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">📄 Your Recommendation Letters</h2>
+
+    {% if letters %}
+        <div class="list-group">
+            {% for letter in letters %}
+                <div class="list-group-item">
+                    <h5 class="mb-1">{{ letter.recommender_name }} ({{ letter.recommender_email }})</h5>
+                    <p class="mb-1"><strong>Affiliation:</strong> {{ letter.affiliation }}</p>
+                    <p class="mb-1"><strong>Status:</strong> {{ letter.status|capitalize }}</p>
+                    <p class="mb-1"><strong>Submitted At:</strong> {{ letter.submitted_at or 'Not yet submitted' }}</p>
+                    {% if letter.letter %}
+                        <hr>
+                        <p class="fst-italic">{{ letter.letter }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No recommendation requests found.</p>
+    {% endif %}
+</div>
+{% endblock %}

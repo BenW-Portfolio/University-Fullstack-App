@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Students</title>
+    <link rel="stylesheet" href="static\styles\Styles.css">
+
+</head>
+<body>
+    <div class = "banner">            
+        <div class = "link">
+            <a href="{{ back }}">Back</a>
+        </div>
+    </div>
+    <h2>Search </h2>
+    <form method="POST">
+        <label for="search_type">Search Current Students:</label>
+        <select name="search_type" id="search_type">
+            <option value="degree">Degree Program</option>
+            <option value="year">Admission Year</option>
+        </select>
+        <button type="submit">Search</button>
+
+
+    </form>
+
+    <form method="GET">
+        <label for="search_grad">Search Graduating Students:</label>
+        <select name="search_grad" id="search_grad">
+            <option value="degreeMS">Degree - MS</option>
+            <option value="degreePHD">Degree - PHD</option>
+            <option value="year">Graduating Year</option>
+            <option value="semester">Graduating Semester</option>
+            <button type="submit">Search</button>
+
+            {% if type == 'year' or type == 'semester' %}
+                <label for="value">Enter Value:</label>
+                <input type="text" name="value" id="value">
+
+            {%endif%}
+        </select>
+        <button type="submit">Search</button>
+
+
+</form> 
+
+    {% if results %}
+        <h3>Results:</h3>
+        <table border="1">
+            <tr>
+                {% for header in results[0].keys() %}
+                    <th>{{ header }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in results %}
+                <tr>
+                    {% for value in row %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</body>
+</html>

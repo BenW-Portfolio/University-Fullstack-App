@@ -1,0 +1,38 @@
+<form method="post">
+    <label>Semester:</label>
+    <select name="semester">
+      <option value="">--Any--</option>
+      <option value="Fall">Fall</option>
+      <option value="Spring">Spring</option>
+    </select>
+  
+    <label>Year:</label>
+    <input type="number" name="year" placeholder="2025">
+  
+    <label>Degree:</label>
+    <select name="degree">
+      <option value="">--Any--</option>
+      <option value="MS">MS</option>
+      <option value="PhD">PhD</option>
+    </select>
+  
+    <input type="submit" value="Filter">
+  </form>
+  
+  <a href="{{ url_for('gs.dashboard') }}" class="btn btn-secondary mb-3">← Back to Dashboard</a>
+
+  {% if applicants %}
+    <table>
+      <tr><th>Name</th><th>Email</th><th>Program</th><th>Semester</th><th>Year</th></tr>
+      {% for a in applicants %}
+      <tr>
+        <td>{{ a.first_name }} {{ a.last_name }}</td>
+        <td>{{ a.email }}</td>
+        <td>{{ a.degree_program }}</td>
+        <td>{{ a.admission_semester }}</td>
+        <td>{{ a.admission_year }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+  

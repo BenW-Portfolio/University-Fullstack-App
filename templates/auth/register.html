@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Graduate Admissions System</title>
+    <link href="{{ url_for('static', filename='styles/Styles.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title text-center mb-0 py-2">
+                            <i class="fas fa-user-plus me-2"></i>New Application Registration
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ url_for('auth.register') }}" method="POST">
+                            <h5 class="mb-3 text-primary"><i class="fas fa-user-circle me-2"></i>Personal Information</h5>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="first_name" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" 
+                                           id="first_name" name="first_name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="last_name" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" 
+                                           id="last_name" name="last_name" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" 
+                                       id="email" name="email" required
+                                       placeholder="university@example.edu">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" 
+                                       id="password" name="password" minlength="8" required
+                                       placeholder="At least 8 characters">
+                                <div class="form-text">Must contain at least 8 characters</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ssn" class="form-label">SSN</label>
+                                <input type="text" class="form-control" 
+                                       id="ssn" name="ssn" pattern="\d{3}-\d{2}-\d{4}" 
+                                       placeholder="XXX-XX-XXXX" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <textarea class="form-control" id="address" 
+                                          name="address" rows="2" required></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="tel" class="form-control" 
+                                       id="phone" name="phone" pattern="\(\d{3}\) \d{3}-\d{4}" 
+                                       placeholder="(XXX) XXX-XXXX" required>
+                            </div>
+                                    
+
+                            <!-- DEBUG: Sign up for different roles demo-->
+                            
+                            <div class="mb-3 alert alert-warning">
+                                <label for="role" class="form-label">Role (Debug Only)</label>
+                                <select class="form-select" id="role" name="role">
+                                    <option value="applicant" selected>Applicant</option>
+                                    <option value="reviewer">Faculty Reviewer</option>
+                                    <option value="gs">Graduate Staff</option>
+                                    <option value="cac">CAC</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                                <div class="form-text">This field should be removed in production</div>
+                            </div>
+                            
+
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="fas fa-user-plus me-2"></i>Complete Registration
+                                </button>
+                                <a href="{{ url_for('auth.login') }}" 
+                                   class="btn btn-outline-secondary">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Already have an account?
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-3 text-muted">
+                    <small>
+                        Graduate Admissions System &copy; {{ current_year }}
+                        <span class="mx-2">|</span>
+                        v2.0 (New Database Schema)
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Enable form validation
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Applicant Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('applicant.dashboard') }}">Applicant Dashboard</a></li>
+            <li><a href="{{ url_for('applicant.application') }}">Application Form</a></li>
+            <li><a href="{{ url_for('applicant.application_status') }}">Application Status</a></li>
+            <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+            <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+    <section>
+        <h1>Welcome to the Applicant Portal</h1>
+        <p>Use the navigation links above to access different sections of the portal.</p>
+    </section>
+</body>
+</html>

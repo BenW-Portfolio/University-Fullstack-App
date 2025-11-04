@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Initial Advising Plan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/Styles.css') }}"> <!-- Ensure correct static path -->
+</head>
+<body>
+    <div class="logo">
+        GW Graduate Advising System
+    </div>
+
+    <div class="banner">
+        <div class="link">
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{ url_for('studentHome') }}">Back to Home</a> <!-- Link to student home -->
+        </div>
+    </div>
+
+    <div class="container mt-4"> <!-- Assuming bootstrap-like structure -->
+        <h2>Initial Advising Plan Submission</h2>
+        <p>
+            Welcome! To register for your first semester courses, you must submit this initial plan for advisor review.
+            Once approved, the registration hold will be lifted.
+        </p>
+
+        {# Display Flash Messages #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="courseList">
+            <form action="{{ url_for('submit_initial_advising_form') }}" method="POST"> {# Point to the new route #}
+
+                <p>Select the courses you plan to take for your first semester (suggested 1-5 courses).</p>
+
+                {% for i in range(6) %} {# Let's provide 6 slots for flexibility #}
+                <div class="mb-3"> {# Better spacing #}
+                    <label for="initial_course{{ i }}" class="form-label">Course {{ i + 1 }}:</label><br>
+                    <select name="initial_course_id_{{ i }}" id="initial_course{{ i }}" class="form-select"> {# Unique name prefix #}
+                        <option value="">-- Select a course (Optional) --</option>
+                        {% for course in courses %}
+                            {# Assuming courses table has course_id as PK #}
+                            <option value="{{ course['course_id'] }}">
+                                {{ course['dept_code'] }} {{ course['course_number'] }} - {{ course['title'] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-primary">Submit Initial Plan</button>
+            </form>
+        </div>
+    </div> {# End container #}
+
+</body>
+</html>

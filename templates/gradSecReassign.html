@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="static\styles\Styles.css">
+</head>
+<body>
+
+    <div class = "logo" >
+
+        GW Graduate Advising System
+
+    </div>
+
+
+    <div class = "banner">
+
+        <div class = "link">
+            <a href="/logout">Logout</a><a href="{{ back }}">Back</a>
+        </div>
+
+    </div>
+
+<!--ISSUE HERE: EVERYTHING DISAPPEARS ON SCREEN WHEN SUBMIT IS HIT-->
+
+    <form action = '/gradSecReassign' method = 'GET' class = "courseList">
+                
+        {% if session['user_type'] != 'student' %}
+            ENTER STUDENT ID:
+            <input type = "text" name = "studentID" >  <br>
+        {% endif %}
+        <input type="submit" name="submit"> <br>
+        
+    </form>    
+
+
+
+    <form action = '/gradSecReassign' method = 'POST' class = "courseList">
+
+        <input type="hidden" name="studentID" value="{{ value['userID'] }}">
+        UserID: {{ value['userID'] }} | Name {{ value['first_name'] }} {{ value['last_name'] }} <br>
+
+        <label for="advisor">Assign Advisor:</label>
+        <select name="advisor" id="advisor">
+            {% for v in advisorValues %}
+                <option value="{{ v['user_id'] }}">{{ v['first_name'] }} {{ v['last_name'] }}</option>
+            {% endfor %}
+        </select>
+        {% if value['userID'] != null%}
+            <input type="submit" value="Assign Advisor"> <br><br>
+        {% endif %}
+
+    </form>
+
+</body>
+
+</html>

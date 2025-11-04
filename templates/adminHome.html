@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>Home</title>
+        <link rel="stylesheet" href="static\styles\Styles.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <body>
+
+        <div class = "logo" >
+
+            GW Graduate Advising System
+    
+        </div>
+
+
+        <div class = "banner">
+
+            <div class = "link">
+                <a href="/admin/dashboard">Applicant Dashboard</a><a href="/logout">Logout</a>
+            </div>
+    
+        </div>
+
+        <form action="{{ url_for('reset_db') }}" method="post">
+            <button type="submit">Reset Database</button>
+        </form>
+        
+
+
+        <div class="courseList">
+            <details>
+                <summary>All courses</summary>
+                    {% for course in courses %}
+                        <div class = "course">
+                            <ul>
+                                <li> {{ course.course_id }} | {{course.dept_code}}{{course.course_number}} - {{ course.title }} - Credits: {{ course.credits }} 
+                                    <ol>
+                                        <li>Prereq 1: {{ course.pre1 }}</li>
+                                        <li>Prereq 2: {{ course.pre2 }} </li>
+                                    </ol>
+                                </li> 
+                            </ul>
+                        </div>
+                    {% endfor %}
+            </details>  
+        </div>
+
+        <div class ="userList">
+            <details>
+                <summary> Admins 
+                    <form action = "/adminCreateAccHelper" method = "POST" style="display:inline;">
+                        <input type="hidden" name="type" value="admin">
+                        <button type = "submit">Create a new Admin Account</button>
+                    </form>
+                </summary>
+
+                {% for admin in admins %}
+                    <div class = "user">
+                        <ul>
+                            <li> {{ admin.first_name  }} {{ admin.last_name }} | Username: {{ admin.username }} Password: {{ admin.passcode }}</li>
+                        </ul>
+                    </div>
+                {% endfor %}
+
+                
+
+            </details>
+        </div>
+        
+        <div class = "userList">
+            <details>
+                <summary> Graduate Secrataries 
+
+                    <form action = "/adminCreateAccHelper" method = "POST" style="display:inline;">
+                        <input type="hidden" name="type" value="gradSec">
+                        <button type = "submit">Create a new Graduate Secratary Account</button>
+                    </form>
+                    
+                </summary>
+
+                {% for gradSec in gradSecs %}
+                    <div class = "user">
+                        <ul>
+                            <li> {{ gradSec.first_name  }} {{ gradSec.last_name }} | Username: {{ gradSec.username }} Password: {{ gradSec.passcode }}</li>
+                        </ul>
+                    </div>
+                {% endfor %}
+            </detials>
+
+                
+
+        </div>
+
+        <div class = "userList">
+            <details>
+                <summary> Advisors 
+
+                    <form action = "/adminCreateAccHelper" method = "POST" style="display:inline;">
+                        <input type="hidden" name="type" value="advisor">
+                        <button type = "submit">Create a new Advisor Account</button>
+                    </form>
+
+                </summary>
+
+                    {% for advisor in advisors %}
+                        <div class = "user">
+                            <ul>
+                                <li> 
+                                    {{ advisor.first_name  }} {{ advisor.last_name }} | Username: {{ advisor.username }} Password: {{ advisor.passcode }}
+
+                                    <form action="/advisorProf" method="POST" style="display:inline;">
+                                        <input type="hidden" name="advisorID" value="{{ advisor['userID'] }}">
+                                        <button type="submit"> See full profile </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    {% endfor %}
+
+                    
+            </details>
+        </div>
+
+        <div class = "userList">
+            <details>                
+                <summary> Students </summary>
+
+                {% for student in students %}
+                    <div class = "user">
+                        <ul>
+                            <li> {{ student.first_name  }} {{ student.last_name }} | Username: {{ student.username }} Password: {{ student.passcode }}
+                                <form action="/studentProf" method="POST" style="display:inline;">
+                                    <input type="hidden" name="studentID" value="{{student.user_id}}">
+                                    <button type="submit"> See full profile </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                {% endfor %}
+            </details>
+        </div>
+
+        <div class = "userList">
+            <details>
+                <summary> Alumni </summary>
+
+                {% for alumni in Alumni %}
+                    <div class = "user">
+                        <ul>
+                            <li> {{ alumni.first_name  }} {{ alumni.last_name }} | Username: {{ alumni.username }} Password: {{ alumni.passcode }}</li>
+                        </ul>
+                    </div>
+                {% endfor %}
+            </detials>
+
+                
+
+        </div>
+
+    </body>
+
+</html>

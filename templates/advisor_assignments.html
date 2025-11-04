@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advisor Assignments</title> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/Styles.css') }}">
+</head>
+
+<body>
+
+    <div class="logo">
+        GW Graduate Advising System
+    </div>
+
+    <div class="banner">
+        <div class="link">
+            <a href="/logout">Logout</a>
+            <a href="/gradSecHome">Grad Sec Home</a> 
+            <a href="/gradSecAssignAdv">Assign Advisors</a>
+        </div>
+    </div>
+
+
+    <div class="content-container"> 
+        <h1>Advisor Assignments</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes"> 
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+
+        {% if advisors_data %}
+            {% for advisor in advisors_data %}
+            <div class="advisor-section" style="margin-bottom: 20px; border: 1px solid #ccc; padding: 15px;"> 
+                <h3>
+                    Advisor: {{ advisor.advisor_first_name }} {{ advisor.advisor_last_name }}
+                    <small style="font-weight: normal; color: #555;">(ID: {{ advisor.advisor_id }})</small>
+                </h3>
+
+                {% if advisor.advisees %}
+                <h4>Advisees:</h4>
+                <ul style="list-style: none; padding-left: 20px;"> 
+                    {% for student in advisor.advisees %}
+                    <li style="margin-bottom: 5px;">
+                        {{ student.first_name }} {{ student.last_name }}
+                        <small style="color: #555;">(ID: {{ student.user_id }})</small>
+                        <a href="/studentProf/{{ student.user_id }}" style="margin-left: 15px; font-size: 0.9em;">View Profile</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p>No advisees currently assigned.</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No advisors found in the system or an error occurred retrieving data.</p>
+        {% endif %}
+
+
+    </div> 
+
+</body>
+</html>

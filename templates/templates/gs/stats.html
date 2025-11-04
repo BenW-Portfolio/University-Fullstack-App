@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Statistics - APPS</title>
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="d-flex justify-content-between mb-4">
+            <h2>Admission Statistics</h2>
+            <a href="{{ url_for('gs.dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+
+        <form method="post" class="row g-3 mb-4">
+            <div class="col-md-3">
+                <label for="term" class="form-label">Term</label>
+                <input type="text" name="term" id="term" class="form-control" placeholder="e.g. Fall">
+            </div>
+            <div class="col-md-3">
+                <label for="year" class="form-label">Year</label>
+                <input type="number" name="year" id="year" class="form-control" placeholder="e.g. 2025">
+            </div>
+            <div class="col-md-3">
+                <label for="degree" class="form-label">Degree Program</label>
+                <input type="text" name="degree" id="degree" class="form-control" placeholder="e.g. MS CS">
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Filter Statistics</button>
+            </div>
+        </form>
+        
+
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for stat in statistics %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-header bg-dark text-white">
+                        {{ stat.degree_sought }} - {{ stat.term }}
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <tr>
+                                <th>Total Applications</th>
+                                <td>{{ stat.total_applications }}</td>
+                            </tr>
+                            <tr>
+                                <th>Admitted</th>
+                                <td>{{ stat.admitted }} ({{ (stat.admitted/stat.total_applications*100)|round(1) }}%)</td>
+                            </tr>
+                            <tr>
+                                <th>Rejected</th>
+                                <td>{{ stat.rejected }} ({{ (stat.rejected/stat.total_applications*100)|round(1) }}%)</td>
+                            </tr>
+                            <tr>
+                                <th>Avg GRE Verbal</th>
+                                <td>{{ stat.avg_verbal|round(1) if stat.avg_verbal else 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Avg GRE Quant</th>
+                                <td>{{ stat.avg_quant|round(1) if stat.avg_quant else 'N/A' }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    No statistics available
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

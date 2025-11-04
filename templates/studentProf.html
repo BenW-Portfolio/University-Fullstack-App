@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <link rel="stylesheet" href="static\styles\Styles.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Student Profile</title>
+    </head>
+
+    <body>
+
+
+        <div class = "logo" >
+
+            GW Graduate Advising System
+    
+        </div>
+    
+    
+        <div class = "banner">
+    
+            <div class = "link">
+                <a href="/logout">Logout</a><a href="{{ back }}">Back</a>            
+            </div>
+    
+        </div>
+
+        <form action="{{ url_for('reset_db') }}" method="post">
+            <button type="submit">Reset Database</button>
+        </form>
+        
+        <ul>
+            <li>Name: {{ student.fname }} {{ student.lname }}</li>
+            <li>Address: {{ student.address }} </li>
+            <li>Program: {{ student.program }} </li>
+            <li>Graduation Date: {{ student.graduationDate }}</li>
+            <li>Thesis Approval: {% if student.approved == 0 %} False {% else %} True {% endif %}</li>
+            <li>GPA: {{ GPA }} </li>
+            <li>Suspended: {% if suspended == 0 %} False {% else %} True {% endif %} </li>
+        </ul>
+
+        <div class="courseList">
+            <Header> Course History </Header>
+            {% for course in courses %}
+                <div class = "course">
+                    <ul>
+                        <li> 
+                            {{course.department}}{{course.code}} - {{ course.title }} - Credits: {{ course.credits }} | Semester Taken: {{ course.semester }} Grade: {{course.grade}}
+                        </li> 
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class = "form1">
+            <p>Form 1</p>
+            <ul>
+                {% for form1Course in form1 %}
+
+                    <li> {{form1Course.department}}{{form1Course.code}} - {{ form1Course.title }} - Credits: {{ form1Course.credits }}  </li>
+
+                {% endfor %}
+            </ul>
+        </div>
+
+        
+    </body>
+
+</html>

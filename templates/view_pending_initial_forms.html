@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pending Initial Advising Plans</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/Styles.css') }}">
+</head>
+<body>
+    <div class="logo">
+        GW Graduate Advising System
+    </div>
+
+    <div class="banner">
+        <div class="link">
+            <a href="{{ url_for('logout') }}">Logout</a>
+            {% if session.user_type == 'advisor' %}
+                 <a href="{{ url_for('advisorHome') }}">Back to Home</a>
+            {% elif session.user_type == 'gs' %}
+                 <a href="{{ url_for('gs.dashboard') }}">Back to Dashboard</a> 
+            {% elif session.user_type == 'advisor/instructor' %}
+                 <a href="{{ url_for('advisor_instructor_home') }}">Back to Home</a> 
+            {% elif session.user_type == 'advisor/instructor/reviewer' %}
+                 <a href="{{ url_for('advisor_instructor_reviewer_home') }}">Back to Home</a> 
+            {% else %}
+                 <a href="{{ url_for('login') }}">Back</a> 
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <h2>Pending Initial Advising Plans</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% if pending_submissions %}
+            {% for submission in pending_submissions %}
+            <div class="card mb-3">
+                <div class="card-header">
+                    Submission ID: {{ submission.submissionID }} |
+                    Student: {{ submission.student_fname }} {{ submission.student_lname }} (ID: {{ submission.studentID }}) |
+                    Submitted: {{ submission.submission_timestamp[:16] }} 
+                    {% if session.user_type == 'gs' %}
+                       | Assigned Advisor: {{ submission.advisor_fname }} {{ submission.advisor_lname }} (ID: {{ submission.advisorID }})
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h6>Proposed Courses:</h6>
+                    {% if submission.courses %}
+                    <ul class="list-group list-group-flush">
+                        {% for course in submission.courses %}
+                        <li class="list-group-item">
+                             {{ course.dept_code }} {{ course.course_number }} - {{ course.title }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">No courses listed for this submission.</p>
+                    {% endif %}
+                </div>
+                <div class="card-footer text-end"> 
+                    <form action="{{ url_for('process_initial_advising_form') }}" method="POST" style="display: inline-block; margin-right: 5px;">
+                        <input type="hidden" name="submissionID" value="{{ submission.submissionID }}">
+                        <input type="hidden" name="action" value="approve">
+                        <button type="submit" class="btn btn-success btn-sm">Approve & Lift Hold</button>
+                    </form>
+                    <form action="{{ url_for('process_initial_advising_form') }}" method="POST" style="display: inline-block;">
+                        <input type="hidden" name="submissionID" value="{{ submission.submissionID }}">
+                        <input type="hidden" name="action" value="reject">
+                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info" role="alert">
+                There are no pending initial advising plan submissions requiring review.
+            </div>
+        {% endif %}
+    </div> 
+
+</body>
+</html>

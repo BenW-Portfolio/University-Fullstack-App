@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="static\styles\Styles.css">
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Update profile</title>
+    </head>
+
+    <body>
+
+        <div class = "logo" >
+
+            GW Graduate Advising System
+    
+        </div>
+
+
+        <div class = "banner">
+
+            <div class = "link">
+                <a href="{{ back }}">Back</a>
+            </div>
+    
+        </div>
+
+        Enter new information:
+        <form action = "/updateInfo" method = "POST" class = "form-grid">
+
+
+            <label for="fname">First Name</label>
+            <input type="text" name="fname" value="{{ user.fname }}">
+
+            <label for="lname">Last Name</label>
+            <input type="text" name="lname" value = "{{ user.lname }}">
+
+            <label for="password">Password</label>
+            <input type="text" name="password" value = "{{ user.password }}">
+
+            <label for="address">Address</label>
+            <input type="text" name="address" value = "{{ user.address }}">
+
+            {% if user.role == 'student' %}
+                <label>Graduation Date</label> <br>
+                
+                <label for="Spring">Spring</label>
+                <input type = "radio" id = "Spring" value = "S" name = 'gradSem' style="display:inline;" {% if user.graduationDate[0:1] == 'S' %} checked {% endif %} required >
+
+                <label for="Fall">Fall</label>
+                <input type = "radio" id = "Fall" value = "F" name = 'gradSem' style="display:inline;" {% if user.graduationDate[0:1] == 'F' %} checked {% endif %} required >
+
+                <label for="gradYear">Year</label>
+                <input type = 'number' name = 'gradYear' min="2024" max="2050" step="1" style = "display: inline;" value = "{{ gradYear }}">  
+            {% endif %}
+            
+            
+            <input type="submit"name="submit"> <br>
+        </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class=flashes>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+    </body>
+</html>

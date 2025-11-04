@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="static\styles\Styles.css">
+    </head>
+
+    <body>
+
+
+        <div class = "logo" >
+
+            GW Graduate Advising System
+
+        </div>
+
+
+        <div class = "banner">
+
+            <div class = "link">
+                <a href="/gs/dashboard">Applicant Dashboard</a><a href="/logout">Logout</a><a href="/audit">Audit Students</a>
+                <a href="/gradSecAssignAdv">Assign advisors here</a><a href="/alumniList">View Alumni</a><a href="/advisor_assignments">View Advisor Assignments</a><a href="/transcript">View Student Transcripts</a><a href="/search">Search students</a>
+            </div>
+
+        </div>
+
+        <form action="{{ url_for('reset_db') }}" method="post">
+            <button type="submit">Reset Database</button>
+        </form>
+
+        <br> All students: <br>
+
+        <table border="1">
+                <tr>
+                    <th>UserID</th>
+                    <th>Username</th>
+                    <th>firstname</th>
+                    <th>lastname</th>
+                    <th>address</th>
+                    <th>program</th>
+                    <th>graduation date</th>
+                    <th>thesis approval</th>
+                    <th>advisor</th>
+
+                </tr>
+
+                {% for value in values %}
+                <tr>
+
+                    <td>{{ value['student_userID'] }}</td>
+                    <td>{{ value['student_username'] }}</td>
+                    <td>{{ value['student_fName'] }}</td>
+                    <td>{{ value['student_lname'] }}</td>
+
+                    <td>{{ value['student_address'] }}</td>
+                    <td>{{ value['student_program'] }}</td>
+                    <td>{{ value['student_graduationDate'] }}</td>
+                    {% if value['student_approved'] == 0 %}
+                    <td>{{unapprovedGrad}}</td>
+                    {%else%}
+                    <td>{{approvedGrad}}</td>
+                    {% endif %}
+                    <td>
+                        {% if value['advisor_fname'] and value['advisor_lname'] %}
+
+                            {{ value['advisor_fname'] }} {{ value['advisor_lname'] }}
+
+                        {% else %}
+
+                            No advisor assigned
+                            
+                        {% endif %}
+                    </td>
+
+                </tr>
+        
+                {% endfor %}
+
+        </table>
+
+        <form action = '/gradSecHome' method = 'POST'>
+
+        <br>Graduation Queue: <br>   
+        {% for value in gradValues %}
+            <li>
+                UserID: <td>{{ value['userID'] }},  
+                Username: <td>{{ value['username'] }}, 
+                First Name: <td>{{ value['first_name'] }}, 
+                Last Name: <td>{{ value['last_name'] }} 
+
+            <input type="hidden" name="userID" value="{{ value['userID']  }}">
+            <input type="submit" name="submit"> <br>
+            </li>
+
+            {% endfor %}
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class=flashes>
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+
+        </form>
+        
+
+    </body>
+</html>
