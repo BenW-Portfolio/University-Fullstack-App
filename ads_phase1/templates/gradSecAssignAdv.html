@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="static\styles\Styles.css">
+</head>
+<body>
+
+    <div class = "logo" >
+
+        GW Graduate Advising System
+
+    </div>
+
+
+    <div class = "banner">
+
+        <div class = "link">
+            <a href="/logout">Logout</a><a href="{{ back }}">Back</a>
+        </div>
+
+    </div>
+
+<!--ISSUE HERE: EVERYTHING DISAPPEARS ON SCREEN WHEN SUBMIT IS HIT-->
+
+    {% for value in values %}
+    <form action = '/gradSecAssignAdv' method = 'POST' class = "courseList">
+
+        UserID: {{ value['userID'] }} | Name {{ value['fname'] }} {{ value['lname'] }} <br>
+        
+
+        <label for="advisor">Assign Advisor:</label>
+        <select name="advisor" id="advisor">
+            {% for v in advisorValues %}
+                <option value="{{ v['userID'] }}">{{ v['fname'] }} {{ v['lname'] }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="hidden" name="student" value="{{ value['userID'] }}">
+
+        <input type="submit" value="Assign Advisor"> <br><br>
+
+    </form>
+
+    {% endfor %}
+
+</body>
+
+</html>

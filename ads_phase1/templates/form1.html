@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Form 1 - Program of Study</title>
+        <link rel="stylesheet" href="static\styles\Styles.css">
+    </head>
+
+
+    <body>
+        <div class = "logo" >
+
+            GW Graduate Advising System
+
+        </div>
+
+
+        <div class = "banner">
+
+            <div class = "link">
+                <a href="/logout">Logout</a><a href="{{ back }}">Back</a>
+            </div>
+
+        </div>
+
+        <div class = "courseList">
+            <form action="/form1" method="POST">
+
+                <p>Select between 1 and 12 courses for your {{ program }} Program.</p> 
+
+                {% for i in range(12) %}
+                    <br> <label for="course{{ i }}">Course {{ i + 1}}:</label> <br>
+                    <select name="course_id {{ i }}" id="course{{ i }}">
+                        
+                        <option value="">-- Select a course --</option>
+
+                        {% for course in courses %}
+                            <option value="{{ course['courseID'] }}">
+                                {{ course['department'] }} {{ course['code'] }} - {{ course['title'] }}
+                            </option>
+                        {% endfor %}
+
+                        
+                    </select>
+
+                    
+
+                {% endfor %}
+                <button type="submit">Submit Form 1</button>
+            </form>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class=flashes>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+    </body>
+    
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="static\styles\Styles.css">
+        <title>Advisor Profile</title>
+    </head>
+
+
+    <body>
+
+        <div class = "logo" >
+
+            GW Graduate Advising System
+    
+        </div>
+
+
+        <div class = "banner">
+
+            <div class = "link">
+                <a href="/logout">Logout</a><a href="{{ back }}">Back</a>
+            </div>
+    
+        </div>
+
+
+        Name: {{ advisor.fname }} {{ advisor.lname }}</li>
+
+        <div class="userList">
+            <Header> Advisees </Header>
+
+                {% for student in students %}
+                        <div class = "user">
+                            <ul>
+                                <li> {{ student['fname'] }} {{ student['lname'] }}</li>
+                                <form action="/studentProf" method="POST" style="display:inline;">
+                                    <input type="hidden" name="studentID" value="{{ student['userID'] }}">
+                                    <button type="submit"> See full profile </button>
+                                </form>
+                            </ul>
+                        </div>
+                {% endfor %}
+        </div>
+
+
+    </body>
+</html>

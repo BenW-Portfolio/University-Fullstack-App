@@ -1,0 +1,68 @@
+<!DOCTYPE html> 
+
+<html>
+
+    <head>
+        <Title>Create Account</Title>
+        <link rel="stylesheet" href="static\styles\Styles.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <body>
+
+        <div class = "logo" >
+
+            GW Graduate Advising System
+    
+        </div>
+    
+    
+        <div class = "banner">
+    
+            <div class = "link">
+                <a href="/adminHome">Home</a><a href="{{ back }}">Back</a>
+            </div>
+    
+        </div>
+
+        <div class = "flashes">Please fill out the form below to create the new {{ type }} account:</div>
+        <div class = "login"> 
+            <form action = '/adminCreateAccount' method = 'POST' class = "form-grid">
+                    <label for="username">Username</label>
+                    <input type = "text" name = 'username'>  
+
+                    <label for="pass">Password</label>
+                    <input type = "text" name = 'pass'> 
+
+                    <label for="fname">First Name</label>
+                    <input type = 'text' name = 'fname'>  
+
+                    <label for="lname">Last Name</label>
+                    <input type = 'text' name = 'lname'> 
+
+                    <label for="address">Address</label>
+                    <input type = 'text' name = 'address'>
+
+                    <input type = 'hidden' name ='type' value = "{{ type }}">
+
+                    <input type="submit" name="submit"> <br>
+
+            </form> 
+        </div>      
+
+       {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class=flashes>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+    
+
+    </body>
+
+</html>

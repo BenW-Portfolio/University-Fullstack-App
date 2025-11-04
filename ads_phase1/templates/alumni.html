@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="static\styles\Styles.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+    <body>
+
+        <div class="logo">
+            GW Graduate Advising System
+        </div>
+
+        <div class="banner">
+            <div class="link">
+                <a href="/logout">Logout</a><a href="/updateInfo">Update Personal Info</a>
+            </div>
+        </div>
+        <br><br>
+        Name: {{ fname }} {{ lname }} <br>
+        UserID: {{values['userID']}} <br>
+        Address: {{values['address']}} <br>
+        Program: {{values['program']}} <br>
+        Graduated in: {{values['graduationDate']}} <br>
+
+        <div class="courseList">
+            <Header> Course History </Header>
+            {% for course in courses %}
+                <div class = "course">
+                    <ul>
+                        <li> 
+                            {{course.department}}{{course.code}} - {{ course.title }} - Credits: {{ course.credits }} | Semester Taken: {{ course.semester }} Grade: {{course.grade}}
+                        </li> 
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+        
+
+    </body>
+</html>

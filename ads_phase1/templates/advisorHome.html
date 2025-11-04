@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="static\styles\Styles.css">
+        <title>Advisor Home</title>
+    </head>
+
+    <body>
+
+        <div class="logo">
+            GW Graduate Advising System
+        </div>
+
+        <div class="banner">
+            <div class="link">
+                <a href="/logout">Logout</a><a href="/audit">Audit Students</a>
+            </div>
+        </div>
+
+    <h2>Welcome, {{ advisor.fname }} {{ advisor.lname }}</h2>
+    <div class="userList">
+        <h3>Advisees</h3>
+        {% for student in students %}
+            <details>
+                <summary>{{ student.fname }} {{ student.lname }}</summary>
+                <ul>
+                    <li>Address: {{ student.address }}</li>
+                    <li>Program: {{ student.program }}</li>
+                    <li>Graduation Date: {{ student.graduationDate }}</li>
+                    <li>Thesis Approval? {{ 'Yes' if student.approved else 'No' }}</li>
+                    <!-- <p>DEBUG: Thesis Approved Raw = {{ student.approved }}</p> -->
+                    {% if student.form1_courses %}
+                        <li>Form 1 Courses:
+                            <ul>
+                                {% for course in student.form1_courses %}
+                                    <li>{{ course.department }} {{ course.code }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li>Form 1: Not submitted</li>
+                    {% endif %}
+
+                        <form action="/studentProf" method="POST" style="display:inline;">
+                            <input type="hidden" name="studentID" value="{{ student.userID }}">
+                            <button type="submit">See full profile</button>
+                        </form>
+
+                    <form method="POST" action="/approveThesis">
+                        <input type="hidden" name="studentID" value="{{ student.userID }}">
+                        <label>
+                            Thesis Approved:
+                            <input type="checkbox" name="approved" {% if student.approved %}checked disabled{% endif %}>
+                        </label>
+                        {% if not student.approved %}
+                            <button type="submit">Approve</button>
+                        {% else %}
+                            <span>(Already Approved)</span>
+                        {% endif %}
+                    </form>
+
+                    </ul>
+                </details>
+            {% endfor %}
+        </div>
+
+
+        <br>
+
+
+        <div class = "courseList">
+
+            Approve student forms
+
+            {% for student in studentsQueue %} 
+
+                <details>
+
+                    <summary> 
+                        
+                        {{ student.fname }} {{ student.lname }} 
+
+                        <form action = "/approveForm1" method = "POST" style="display:inline;">
+                            <input type="hidden" name="formID" value="{{ student.formID }}">
+                            <button type = "submit">Approve form</button>
+                        </form>
+
+                        <form action = "/rejectForm1" method = "POST" style="display:inline;">
+                            <input type="hidden" name="formID" value="{{ student.formID }}">
+                            <button type = "submit">Reject form</button>
+                        </form>
+
+                    </summary>
+                        {% for course in coursesQueue %} 
+
+                            {% if student.formID == course.formID %}
+
+                                {{ course.department }} {{ course.code }} - {{ course.title }}<br>
+                            
+                            {% endif %}
+
+                        {% endfor %}
+
+                </details>
+                 
+
+            {% endfor %}
+
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class=flashes>
+                    {% for category, message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+
+    </body>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <link rel="stylesheet" href="static\styles\Styles.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Student Profile</title>
+    </head>
+
+    <body>
+
+
+        <div class = "logo" >
+
+            GW Graduate Advising System
+    
+        </div>
+
+
+        <div class = "banner">
+
+            <div class = "link">
+                <a href="/logout">Logout</a><a href="/updateInfo">Update Personal Info</a><a href="/audit">Apply to graduate</a>
+            </div>
+    
+        </div>
+
+        <ul>
+            <li>Name: {{ student.fname }} {{ student.lname }}</li>
+            <li>Address: {{ student.address }} </li>
+            <li>Program: {{ student.program }} </li>
+            <li>Graduation Date: {{ student.graduationDate }}</li>
+            <li>Thesis Approval: {% if student.approved == 0 %} False {% else %} True {% endif %}</li>
+            <li>GPA: {{ GPA }} </li>
+            <li>Advisor: {{ advisor }}</li>
+            <li>Suspended: {% if suspended == 0 %} False {% else %} True {% endif %} </li>
+        </ul>
+
+        <div class="courseList">
+            <Header> Course History </Header>
+            {% for course in courses %}
+                <div class = "course">
+                    <ul>
+                        <li> 
+                            {{course.department}}{{course.code}} - {{ course.title }} - Credits: {{ course.credits }} | Semester Taken: {{ course.semester }} Grade: {{course.grade}}
+                        </li> 
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class = "form1">
+            {% if not form1 %}
+                <!-- There is no form1 -->
+                {% if form1Status != "Form was approved" %}
+                    <!-- form1Status != "Form was approved" -->
+                    {% if form1Status == "Advisor is still reviewing" %}
+                        <!-- form1Status == "Advisor is still reviewing" -->
+                        <p>Form 1: {{ form1Status }} </p> 
+                    
+                    {% else %}
+                        <!-- form1Status != "Advisor is still reviewing" -->
+                        <p>Form 1: {{ form1Status }} </p>  <br><br>
+                        <a href="/form1">Click here to fill out Form 1</a>
+
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                <p>Form 1: {{ form1Status }} </p> 
+                <ul>
+                    {% for form1Course in form1 %}
+                        <li>{{ form1Course.department }}{{ form1Course.code }} - {{ form1Course.title }} - Credits: {{ form1Course.credits }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class=flashes>
+                    {% for category, message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+
+    </body>
+
+</html>

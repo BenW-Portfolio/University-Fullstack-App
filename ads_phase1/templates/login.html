@@ -1,0 +1,56 @@
+<!DOCTYPE html> 
+
+<html>
+
+    <head>
+        <link rel="stylesheet" href="static\styles\Styles.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <body>
+
+        <div class = "logo" >
+
+            GW Graduate Advising System
+    
+        </div>
+
+
+        <div class = "banner">
+
+            
+            <div class = "link">
+                <a href="/createAccount">Create Account</a>
+            </div>
+    
+        </div>
+
+        <div class = "login">
+            <form action = "/" method = "POST" class = "form-grid">
+                <label for="username">Username</label>
+                <input type="text"name="username">
+
+                <label for="password">Password</label>
+                <input type="text"name="password">
+
+                <input type="submit"name="submit"> <br>
+            </form>
+
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flashes">
+                    {% for category, message in messages %}
+                        <div class="{{ category }}">{{ message }} </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        
+
+    </body>
+
+</html>

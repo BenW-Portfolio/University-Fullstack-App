@@ -1,0 +1,286 @@
+/* Here is where we will write all of our css */
+
+body {
+    background-color: wheat;
+    font-family:fantasy;
+}
+
+.login {
+    color:black;  
+    text-align: center;
+    width: 80%; 
+    max-width: 600px; 
+    margin: 20px auto; 
+    padding: 7px;
+    background-color: #f4e1c6; 
+    border-radius: 10px;
+    border: 2px solid burlywood;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-family:fantasy;
+}
+
+
+.login input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    font-size: 13px;
+    border: 2px solid burlywood;
+    border-radius: 5px;
+    max-width: 75%;
+    margin-bottom: 7px;
+    
+}
+
+.login input[type="number"] {
+    width: 80%;
+    padding: 10px;
+    font-size: 13px;
+    border: 2px solid burlywood;
+    border-radius: 5px;
+    max-width: 20%;
+    margin-bottom: 7px;
+    display: inline;
+
+}
+
+.login input[type="submit"] {
+    font-size: 11px;
+    position: relative;
+    background-color: burlywood;
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px;
+    white-space: nowrap;
+    border: solid 2px black;
+    display: flex;
+    display: block;
+    margin : 0 auto;
+}
+
+
+.userList {
+    background-color: antiquewhite;
+    list-style-type: square;
+    border-style: solid;
+    border: 5px;
+    
+}
+
+.userList details{
+    padding: 5px;
+    border: solid black 2px;
+}
+
+.userList button {
+    font-size: 11px;
+    background-color: burlywood;
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px;
+    white-space: nowrap;
+    border: solid 2px black;
+    margin : 0 auto;
+}
+
+.courseList {
+    background-color: beige;
+    padding-bottom: 2px;
+}
+
+.courseList select {
+    width: 80%;
+    padding: 10px;
+    font-size: 13px;
+    border: 2px solid burlywood;
+    border-radius: 5px;
+    max-width: 75%;
+    margin-bottom: 7px;
+}
+
+.courseList button {
+    font-size: 11px;
+    background-color: burlywood;
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px;
+    white-space: nowrap;
+    border: solid 2px black;
+    margin : 0 auto;
+}
+
+.courseList input[type = "submit"] {
+    font-size: 11px;
+    background-color: burlywood;
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px;
+    white-space: nowrap;
+    border: solid 2px black;
+    margin : 0 auto;
+}
+
+.form1 {
+    background-color: antiquewhite;
+    padding-bottom: 2px;
+}
+
+.form1 li {
+    padding-top: 3px;
+}
+
+.form1 label{
+    background-color:gainsboro;
+}
+
+
+.form1 a{
+    font-family:fantasy;
+    font: 10px;
+    text-decoration:gold;
+    background-color: navajowhite;
+    color: #333333;
+    padding: 3px;
+    margin-left: 2px;
+    border:solid gray;
+    border-top: 3px solid #8d8d8d;
+    border-right: 3px solid #333333;
+    border-bottom: 3px solid #333333;
+    border-left: 3px solid #8d8d8d;
+    border-radius: 10px;
+    justify-content: center;
+    display:inline;
+    margin: 10px;
+}
+
+.banner {
+    background-color: burlywood;
+    border: solid black 2px;
+    border-radius: 10px;
+    text-align: center;
+    font-size:15px;
+}
+
+.logo {
+    text-align: center;
+    font-size: 50px;
+    text-size-adjust: 50px;
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+
+.link {
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+
+
+.link a {
+    font-family:fantasy;
+    font: 10px;
+    text-decoration:gold;
+    background-color: navajowhite;
+    color: #333333;
+    padding: 3px;
+    margin-left: 2px;
+    border:solid gray;
+    border-top: 3px solid #8d8d8d;
+    border-right: 3px solid #333333;
+    border-bottom: 3px solid #333333;
+    border-left: 3px solid #8d8d8d;
+    border-radius: 10px;
+    justify-content: center;
+    display:inline;
+}
+
+.flashes {
+    background-color: burlywood;
+    text-align: center;
+    font-family:fantasy;
+    width: 25%;
+    border-radius: 10px;
+    border: solid black;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 7px;
+}
+
+.flashes error{
+    color: maroon;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 150px 1fr; /* label and input */
+    gap: 10px 20px;
+    align-items: center;
+    width: 100%;
+}
+
+.form-grid label {
+    text-align: right;
+    font-family:fantasy;
+    grid-column: span 1;
+}
+
+.form-grid input[type="text"] {
+    width: 75%;
+    padding: 8px;
+    border: 2px solid burlywood;
+    border-radius: 5px;
+    align-self: center;
+    grid-column: span 1;
+}
+
+.form-grid input[type = "radio"] {
+    display: inline;
+    align-items: left;
+    width: 5%;
+    font-family:fantasy;
+    grid-column: span 1;
+}
+
+.form-grid input[type = number] {
+    text-align: center;
+    font-family:fantasy;
+    max-width: 20%;
+    align-self: center;
+    grid-column: span 1;
+}
+
+.form-grid input[type = "submit"] {
+    grid-column: span 2;
+    text-align: center;
+    font-family:fantasy;
+    max-width: 20%;
+    font-size: 11px;
+    background-color: burlywood;
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px;
+    white-space: nowrap;
+    border: solid 2px black;
+    margin : 0 auto;
+}
+
+.radio-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    font-family: fantasy;
+}
+
+
+
