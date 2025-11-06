@@ -2,9 +2,9 @@
 
 University Fullstack App Project Summary
 
-This project is the second phase of development for the Application, Registration, and Graduation (ARG) system. The primary goal of this phase is to integrate the three standalone modules from Phase 1—Application Processing (APS), Registration (REGS), and Advising/Degree Audit (ADS)—into a single, cohesive platform. Your team will build a complete, end-to-end workflow that manages the entire student lifecycle, from an initial application, through matriculation, course registration, academic advising, and finally to graduation and alumni status. Key focus areas for this phase include ensuring seamless data flow between modules, implementing new critical features like online recommendations and advising holds, refining the user interface for a professional user experience, and robustly testing the integrated system.
+This project is developing the Application, Registration, and Graduation (ARG) system. The primary goal of this project is to integrate the three standalone modules: Application Processing (APS), Registration (REGS), and Advising/Degree Audit (ADS)—into a single, cohesive platform. Your team will build a complete, end-to-end workflow that manages the entire student lifecycle, from an initial application, through matriculation, course registration, academic advising, and finally to graduation and alumni status. Key focus areas for this project include ensuring seamless data flow between modules, implementing new critical features like online recommendations and advising holds, refining the user interface for a professional user experience, and robustly testing the integrated system.
 
-Phase 2 Core Objectives
+Project Core Objectives
 1. System Integration
 
 The immediate priority is to integrate the separate modules into a functional skeleton of the complete system. This involves establishing clear data pathways and state transitions.
@@ -15,27 +15,23 @@ The immediate priority is to integrate the separate modules into a functional sk
 
     Data Consistency: Ensure data is not unnecessarily replicated across systems. A student's registration information (courses, grades) should be directly accessible to the Advising system. Personal data should be sourced from a single point of truth established in the Application module.
 
-    Important Constraint: You must work with the modules as they were built in Phase 1. A complete redesign is not permitted and will result in a grade deduction. Treat the Phase 1 modules as legacy code that must be integrated, not rewritten.
-
 2. Workflow Analysis and Refinement
 
 Once the initial integration is complete, you must diligently review the entire system workflow against the project specifications.
 
     Validate Workflow: Go through the complete user journey, from application to graduation, to identify gaps or inconsistencies.
 
-    Address Phase 1 Feedback: Implement all fixes and address the feedback provided by evaluators during Phase 1. Recurring errors will be penalized again.
-
     Meet Final Specifications: Ensure your integrated system meets every requirement detailed in this document.
 
 3. New Feature Implementation
 
-This phase requires building new functionality to create a complete product.
+This requires building new functionality to create a complete product.
 
     Online Recommendation Letters: Implement a system where applicants can list references, who are then automatically emailed a link to submit their letters online. These letters must be accessible to faculty reviewers.
 
     Advising Hold: New students must submit an advising form for their first semester. An "advising hold" must prevent them from registering until a faculty advisor electronically approves their form.
 
-    Phase 2 Queries & Reports: Implement the specific reports and queries listed later in this document.
+    Queries & Reports: Implement the specific reports and queries listed later in this document.
 
 4. User Interface (UI) Enhancement
 
